@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: feature-feature-branch-name
+  name: ${FEATURE_NAME}
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/asdumitrescu/Weather-App-K8s-Manifest.git
+    repoURL: https://github.com/your-org/your-manifests-repo.git  # Replace with your actual repo
     targetRevision: main
-    path: '.'
+    path: '.'  # Root directory
   destination:
     server: https://kubernetes.default.svc
-    namespace: feature-feature-branch-name
+    namespace: ${FEATURE_NAME}
   syncPolicy:
     automated:
       prune: true
