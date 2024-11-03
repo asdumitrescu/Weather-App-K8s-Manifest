@@ -1,20 +1,39 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: v1
+kind: Namespace
 metadata:
   name: ${FEATURE_NAME}
-  namespace: argocd
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-app
+  namespace: ${FEATURE_NAME}
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/your-org/your-manifests-repo.git  # Replace with your actual repo
-    targetRevision: main
-    path: '.'  # Root directory
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: ${FEATURE_NAME}
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-app
+  template:
+    metadata:
+      labels:
+        app: weather-app
+    spec:
+      containers:
+      - name: weather-app
+        image: asdumitrescu/weather-app:${FEATURE_NAME}
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-app-service
+  namespace: ${FEATURE_NAME}
+spec:
+  selector:
+    app: weather-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
