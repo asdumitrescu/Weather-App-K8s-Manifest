@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/asdumitrescu/Weather-App-K8s-Manifest.git
     targetRevision: main
-    path: environments/feature-feature-branch-name
+    path: '.'
   destination:
     server: https://kubernetes.default.svc
     namespace: feature-feature-branch-name
