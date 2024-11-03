@@ -1,21 +1,20 @@
-# argocd-app-template.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: feature-{feature_name}
+  name: feature-feature-branch-name
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-org/your-manifests-repo
+    repoURL: https://github.com/asdumitrescu/Weather-App-K8s-Manifest.git
     targetRevision: main
-    path: environments/feature-{feature_name}
+    path: environments/feature-feature-branch-name
   destination:
     server: https://kubernetes.default.svc
-    namespace: feature-{feature_name}
+    namespace: feature-feature-branch-name
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
